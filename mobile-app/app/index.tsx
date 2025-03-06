@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   TextInput,
@@ -9,20 +9,51 @@ import {
   StyleSheet,
   Image,
 } from "react-native";
-import { useNavigation } from "expo-router";
 import PasswordInputField from "@/components/PasswordInput";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { Toast } from "toastify-react-native";
+import { loginRequest } from "@/hooks/api/userApi";
+import Storage from "@/utils/AsyncStorage";
+import { useRouter } from "expo-router";
 
 const LoginScreen = () => {
-  const navigation = useNavigation();
+  const navigation = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = () => {
-    console.log("Login button pressed", email, password);
+  const handleLogin = async () => {
+    setIsLoading(true); // Assuming you have a loading state
+    try {
+      const resp = await loginRequest({ email, password });
+      console.log(resp, "Login successful");
+      Toast.success("Login successfully");
+      Storage.setItem("token", resp?.data?.token);
+      setEmail("");
+      setPassword("");
+      navigation.navigate("/dashboard");
+      // Perform any additional actions after login, like navigating to another screen
+    } catch (error) {
+      console.log("Login error:", error);
+
+      Toast.error(
+        error?.response?.data?.message || "An unexpected error occurred"
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  useEffect(() => {
+    const check = async () => {
+      const token = await Storage.getItem("token");
+      if (token != null) {
+        navigation.navigate("/dashboard");
+      }
+    };
+    check();
+  }, []);
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -72,7 +103,7 @@ const LoginScreen = () => {
           </ThemedText>
           <TouchableOpacity
             activeOpacity={0.7}
-            onPress={() => navigation.navigate("signup")}
+            onPress={() => navigation.navigate("/signup")}
           >
             <ThemedText style={styles.signUpText}>Sign Up</ThemedText>
           </TouchableOpacity>
@@ -158,7 +189,6 @@ const styles = StyleSheet.create({
     color: "#FFA500",
     fontSize: 16,
     textDecorationLine: "underline",
-    fontWeight: "bold",
   },
 });
 

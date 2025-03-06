@@ -2,7 +2,9 @@ import CustomInputField from "@/components/CustomInputField";
 import PasswordInputField from "@/components/PasswordInput";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { useNavigation } from "expo-router";
+import { sendOtpMail, signupRequest } from "@/hooks/api/userApi";
+import { generateOtp } from "@/utils/helper";
+import { useNavigation, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   View,
@@ -14,6 +16,7 @@ import {
   Platform,
   StyleSheet,
 } from "react-native";
+import { Toast } from "toastify-react-native";
 
 type NavigationProp = {
   navigate: (screen: string) => void;
@@ -28,7 +31,9 @@ const RegisterScreen: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [userRegisterLoading, setUserRegisterLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
+  const router = useRouter();
   // Error state
   const [errors, setErrors] = useState<{ [key: string]: string | null }>({});
 
@@ -53,9 +58,35 @@ const RegisterScreen: React.FC = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
     if (validateForm()) {
-      console.log("asmbdgnagsdhfsahd");
+      try {
+        setUserRegisterLoading(true);
+        const userotp = generateOtp();
+        const payload = {
+          email: email,
+          full_name: fullName,
+          password: password,
+          otp: userotp,
+        };
+        const resp = await sendOtpMail({
+          email: email,
+          otp: userotp,
+        });
+        console.log(resp);
+
+        Toast.success("Otp send to your email successfully");
+        handleReset();
+        router.push({ pathname: "/otp-verify", params: payload });
+      } catch (error) {
+        console.log("Otp error:", error);
+
+        Toast.error(
+          error?.response?.data?.message || "An unexpected error occurred"
+        );
+      } finally {
+        setUserRegisterLoading(false);
+      }
     }
   };
 
@@ -89,7 +120,6 @@ const RegisterScreen: React.FC = () => {
     setFullName("");
     setPassword("");
     setConfirmPassword("");
-    navigation.navigate("login");
   };
 
   return (
@@ -159,7 +189,7 @@ const RegisterScreen: React.FC = () => {
             onPress={handleRegister}
           >
             <ThemedText style={styles.signUpText}>
-              {userRegisterLoading ? "Signing Up..." : "Sign Up"}
+              {userRegisterLoading ? "Creating Account..." : "Continue"}
             </ThemedText>
           </TouchableOpacity>
 

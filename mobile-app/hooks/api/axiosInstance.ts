@@ -3,7 +3,7 @@ import Storage from "@/utils/AsyncStorage";
 import API_URLS from "@/constants/Urls";
 
 export const axiosInstance = axios.create({
-  baseURL: API_URLS.BASE_URL,
+  baseURL: API_URLS.PROD_BASE_URL,
 });
 
 // Request interceptor

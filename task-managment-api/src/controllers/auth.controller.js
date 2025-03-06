@@ -128,7 +128,7 @@ const login = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(404).json({ message: "email not found" });
+      return res.status(404).json({ message: `User not found with ${email}` });
     }
 
     // Check if the password matches

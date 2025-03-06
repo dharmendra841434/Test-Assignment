@@ -1,6 +1,5 @@
 const API_URLS = {
-  NEXT_PUBLIC_SOCKET_URL_LOCAL: "http://localhost:8000",
-  NEXT_PUBLIC_SOCKET_URL_PROD: "https://chatingroom.onrender.com",
-  BASE_URL: "https://chatingroom.onrender.com/api/v1",
+  LOCAL_BASE_URL: "http://localhost:8000/api/v1",
+  PROD_BASE_URL: "https://test-assignment-cmf9.onrender.com/api/v1",
 };
 export default API_URLS;

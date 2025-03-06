@@ -7,16 +7,19 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { StatusBar } from "expo-status-bar";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import "react-native-reanimated";
-
+import Container, { Toast } from "toastify-react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { Dimensions } from "react-native";
+import Storage from "@/utils/AsyncStorage";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  const navRef = useRef(null);
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     Typo_Round_Regular_Demo: require("../assets/fonts/Typo_Round_Regular_Demo.otf"),
@@ -45,8 +48,21 @@ export default function RootLayout() {
         <Stack.Screen name="+not-found" />
         <Stack.Screen name="signup" />
         <Stack.Screen name="dashboard" />
+        <Stack.Screen name="otp-verify" />
       </Stack>
       <StatusBar style="auto" />
+      <Container
+        width={Dimensions.get("window").width * 0.9}
+        height={50}
+        positionValue={25}
+        showCloseIcon={false}
+        animationStyle="upInUpOut"
+        textStyle={{
+          fontSize: 14,
+          fontFamily: "SpaceMono",
+          textTransform: "capitalize",
+        }}
+      />
     </ThemeProvider>
   );
 }
