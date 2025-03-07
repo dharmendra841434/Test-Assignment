@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
+import { ThemedInput } from "./ThemedInput";
 
 interface PasswordInputFieldProps {
   value: string;
@@ -40,7 +41,7 @@ const PasswordInputField: React.FC<PasswordInputFieldProps> = ({
       <ThemedView
         style={[styles.inputContainer, isError && styles.errorBorder]}
       >
-        <TextInput
+        <ThemedInput
           placeholder={placeholder}
           secureTextEntry={!isPasswordVisible}
           cursorColor="black"

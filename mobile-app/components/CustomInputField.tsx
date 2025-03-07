@@ -1,7 +1,8 @@
 import React from "react";
-import { TextInput, StyleSheet } from "react-native";
+import { TextInput, StyleSheet, ViewStyle } from "react-native";
 import { ThemedText } from "./ThemedText";
 import { ThemedView } from "./ThemedView";
+import { ThemedInput } from "./ThemedInput";
 
 interface PasswordInputFieldProps {
   value: string;
@@ -11,6 +12,8 @@ interface PasswordInputFieldProps {
   errorMessage?: any;
   placeholder?: string;
   title?: string;
+  isMultiLine?: boolean;
+  containerStyle?: ViewStyle; // ✅ Added containerStyle prop
 }
 
 const CustomInputField: React.FC<PasswordInputFieldProps> = ({
@@ -21,20 +24,29 @@ const CustomInputField: React.FC<PasswordInputFieldProps> = ({
   placeholder = "Enter your placeholder",
   title = "Your title",
   onFocus,
+  isMultiLine,
+  containerStyle, // ✅ Receive containerStyle prop
+  ...rest
 }) => {
   return (
     <ThemedView>
       <ThemedText style={styles.title}>{title}</ThemedText>
       <ThemedView
-        style={[styles.inputContainer, isError && styles.errorBorder]}
+        style={[
+          styles.inputContainer,
+          isError && styles.errorBorder,
+          containerStyle, // ✅ Apply custom styles here
+        ]}
       >
-        <TextInput
+        <ThemedInput
           placeholder={placeholder}
           cursorColor="black"
           style={styles.input}
           value={value}
           onChangeText={onChangeText}
           onFocus={onFocus}
+          multiline={isMultiLine}
+          {...rest}
         />
       </ThemedView>
       {isError && (
@@ -66,10 +78,6 @@ const styles = StyleSheet.create({
     color: "black",
     paddingVertical: "6%",
     fontFamily: "SpaceMono",
-  },
-  toggleText: {
-    color: "black",
-    fontSize: 14,
   },
   errorText: {
     color: "red",

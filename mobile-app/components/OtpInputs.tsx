@@ -1,3 +1,4 @@
+import { useThemeColor } from "@/hooks/useThemeColor";
 import React, { useRef } from "react";
 import {
   TextInput,
@@ -19,6 +20,19 @@ export default function OtpInputs({
   verifyOnComplete,
 }: OtpInputsProps) {
   const ref = useRef<Array<TextInput | null>>([]);
+
+  const lightTextColor = "";
+  const darkTextColor = "";
+  const lightPlaceholderColor = "";
+  const darkPlaceholderColor = "";
+  const color = useThemeColor(
+    { light: lightTextColor, dark: darkTextColor },
+    "text"
+  );
+  const placeholderTextColor = useThemeColor(
+    { light: lightPlaceholderColor, dark: darkPlaceholderColor },
+    "placeholder"
+  );
 
   const handleKeyDown = (
     e: NativeSyntheticEvent<TextInputKeyPressEventData>,
@@ -63,11 +77,16 @@ export default function OtpInputs({
         <TextInput
           key={index}
           ref={(el) => (ref.current[index] = el)}
-          style={[styles.input, { borderColor: value ? "#FFA500" : "gray" }]}
+          style={[
+            styles.input,
+            { borderColor: value ? "#FFA500" : "gray" },
+            { color: color },
+          ]}
           value={value}
           onKeyPress={(e) => handleKeyDown(e, index)}
           keyboardType="numeric"
           maxLength={1}
+          placeholderTextColor={placeholderTextColor}
         />
       ))}
     </View>

@@ -49,6 +49,8 @@ export default function RootLayout() {
         <Stack.Screen name="signup" />
         <Stack.Screen name="dashboard" />
         <Stack.Screen name="otp-verify" />
+        <Stack.Screen name="create-task" />
+        <Stack.Screen name="edit-task" />
       </Stack>
       <StatusBar style="auto" />
       <Container

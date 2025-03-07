@@ -4,6 +4,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   ActivityIndicator,
+  TouchableWithoutFeedback,
+  Keyboard,
+  Platform,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { router, useLocalSearchParams } from "expo-router";
@@ -82,45 +85,50 @@ const OtpVerify = () => {
   };
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText style={styles.title}>Verify OTP</ThemedText>
-      <ThemedText style={styles.subtitle}>
-        Enter the 6-digit code sent to {params.email || "your number"}
-      </ThemedText>
-
-      <OtpInputs
-        otpFields={otpFields}
-        setOtpFields={setOtpFields}
-        verifyOnComplete={(copy) => {
-          // Call otpVerification function if needed
-          handleVerifyOtp(copy.join(""));
-        }}
-      />
-
-      <ThemedText style={styles.timer}>
-        {timer > 0
-          ? `Resend OTP in 00:${timer < 10 ? `0${timer}` : timer}s`
-          : "Didn't receive OTP?"}
-      </ThemedText>
-
-      <TouchableOpacity
-        style={[styles.resendButton, resendDisabled && styles.resendDisabled]}
-        disabled={resendDisabled}
-        onPress={resendOtp}
-      >
-        <ThemedText style={styles.resendText}>
-          {isResending ? "Sending..." : "Resend OTP"}
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <ThemedView style={styles.container}>
+        <ThemedText style={styles.title}>Verify OTP</ThemedText>
+        <ThemedText style={styles.subtitle}>
+          Enter the 6-digit code sent to {params.email || "your number"}
         </ThemedText>
-      </TouchableOpacity>
-      {isVerifing && (
-        <ThemedView style={styles.modal}>
-          <ThemedView style={styles.loader}>
-            <ActivityIndicator size={60} style={{ marginBottom: "10%" }} />
-            <ThemedText>Verifying....</ThemedText>
+
+        <OtpInputs
+          otpFields={otpFields}
+          setOtpFields={setOtpFields}
+          verifyOnComplete={(copy) => {
+            // Call otpVerification function if needed
+            handleVerifyOtp(copy.join(""));
+          }}
+        />
+
+        <ThemedText style={styles.timer}>
+          {timer > 0
+            ? `Resend OTP in 00:${timer < 10 ? `0${timer}` : timer}s`
+            : "Didn't receive OTP?"}
+        </ThemedText>
+
+        <TouchableOpacity
+          style={[styles.resendButton, resendDisabled && styles.resendDisabled]}
+          disabled={resendDisabled}
+          onPress={resendOtp}
+        >
+          <ThemedText style={styles.resendText}>
+            {isResending ? "Sending..." : "Resend OTP"}
+          </ThemedText>
+        </TouchableOpacity>
+        {isVerifing && (
+          <ThemedView style={styles.modal}>
+            <ThemedView style={styles.loader}>
+              <ActivityIndicator
+                size={Platform.OS === "ios" ? 40 : 60}
+                style={{ marginBottom: "10%" }}
+              />
+              <ThemedText>Verifying....</ThemedText>
+            </ThemedView>
           </ThemedView>
-        </ThemedView>
-      )}
-    </ThemedView>
+        )}
+      </ThemedView>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -174,7 +182,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: "25%",
     width: "90%",
-    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "center",
   },

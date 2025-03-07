@@ -16,6 +16,7 @@ import { Toast } from "toastify-react-native";
 import { loginRequest } from "@/hooks/api/userApi";
 import Storage from "@/utils/AsyncStorage";
 import { useRouter } from "expo-router";
+import { ThemedInput } from "@/components/ThemedInput";
 
 const LoginScreen = () => {
   const navigation = useRouter();
@@ -49,7 +50,7 @@ const LoginScreen = () => {
     const check = async () => {
       const token = await Storage.getItem("token");
       if (token != null) {
-        navigation.navigate("/dashboard");
+        navigation.replace("/dashboard");
       }
     };
     check();
@@ -70,7 +71,7 @@ const LoginScreen = () => {
         <ThemedView style={styles.inputContainer}>
           <ThemedView>
             <ThemedText style={styles.label}>Email</ThemedText>
-            <TextInput
+            <ThemedInput
               placeholder="Enter your email"
               cursorColor="black"
               style={styles.input}
