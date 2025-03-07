@@ -45,12 +45,14 @@ const Dashboard = () => {
 
   const getProfile = async () => {
     try {
-      const resp = getCurrentUserDetailsRequest();
+      const resp = await getCurrentUserDetailsRequest();
       console.log(resp, "current");
     } catch (error) {
-      Toast.error(
-        error?.response?.data?.message || "An unexpected error occurred"
-      );
+      console.log(error?.response?.data?.message);
+
+      // Toast.error(
+      //   error?.response?.data?.message || "An unexpected error occurred"
+      // );
     }
   };
 
@@ -86,6 +88,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetAll();
+    getProfile();
   }, []);
 
   const TaskItem = ({ task }) => (

@@ -290,6 +290,7 @@ const resetPassword = async (req, res) => {
 const getDetails = async (req, res) => {
   try {
     const { userId } = req.body;
+    console.log(userId, "asjdgsaj");
 
     if (!userId) {
       return res.status(400).json({
@@ -298,7 +299,7 @@ const getDetails = async (req, res) => {
       });
     }
 
-    const user = await User.findOne({ userId });
+    const user = await User.findById(userId);
     if (!user) {
       return res.status(404).json({
         success: false,
