@@ -61,3 +61,9 @@ export const deleteTaksRequest = async (payload: any) => {
   const response = await axiosInstance.delete(`/task/delete/${payload?._id}`);
   return response.data || response; // Assuming the response contains the data
 };
+
+// Function to fetch register users
+export const getCurrentUserDetailsRequest = async () => {
+  const response = await axiosInstance.get(`/auth/profile`);
+  return response.data || response; // Assuming the response contains the data
+};

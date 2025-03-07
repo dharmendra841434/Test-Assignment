@@ -18,7 +18,11 @@ import { Entypo, MaterialIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { getCurrentDate } from "@/utils/helper";
 import { Toast } from "toastify-react-native";
-import { deleteTaksRequest, getAllTasks } from "@/hooks/api/userApi";
+import {
+  deleteTaksRequest,
+  getAllTasks,
+  getCurrentUserDetailsRequest,
+} from "@/hooks/api/userApi";
 import { useThemeColor } from "@/hooks/useThemeColor";
 import { useSelector } from "react-redux";
 
@@ -37,6 +41,17 @@ const Dashboard = () => {
   const handleLogout = () => {
     Storage.clearAll();
     navigation.navigate("/");
+  };
+
+  const getProfile = async () => {
+    try {
+      const resp = getCurrentUserDetailsRequest();
+      console.log(resp, "current");
+    } catch (error) {
+      Toast.error(
+        error?.response?.data?.message || "An unexpected error occurred"
+      );
+    }
   };
 
   const fetAll = async () => {

@@ -22,6 +22,6 @@ router.route("/signup").post(signup);
 router.route("/login").post(login);
 router.route("/send-reset-password-otp").post(sendOtpMailforReset);
 router.route("/reset-password").put(resetPassword);
-router.route("/profile").put(verifyUserToken, getDetails);
+router.route("/profile").get(verifyUserToken, getDetails);
 
 export default router;
