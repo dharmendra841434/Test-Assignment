@@ -19,12 +19,20 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { getCurrentDate } from "@/utils/helper";
 import { Toast } from "toastify-react-native";
 import { deleteTaksRequest, getAllTasks } from "@/hooks/api/userApi";
+import { useThemeColor } from "@/hooks/useThemeColor";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const navigation = useRouter();
+  //const test = useSelector((state) => state?.app?.test);
+  //console.log(test, "redux");
+
+  // I have setup redux toolkit but not using because no need in this app
+
   const [refreshing, setRefreshing] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
+  const iconColor = useThemeColor({ light: "", dark: "" }, "icon");
 
   const handleLogout = () => {
     Storage.clearAll();
@@ -66,9 +74,23 @@ const Dashboard = () => {
   }, []);
 
   const TaskItem = ({ task }) => (
-    <ThemedView style={styles.taskContainer}>
-      <View>
-        <ThemedText style={{ fontWeight: "bold", fontSize: 16, color: "#888" }}>
+    <TouchableOpacity
+      style={styles.taskContainer}
+      onPress={() => {
+        navigation.push({
+          pathname: "/view-task",
+          params: {
+            _id: task?._id,
+            title: task?.title,
+            description: task?.description,
+          },
+        });
+      }}
+    >
+      <View style={{ padding: "5%" }}>
+        <ThemedText
+          style={{ fontWeight: "bold", fontSize: 16, color: "black" }}
+        >
           {task.title}
         </ThemedText>
         <ThemedText numberOfLines={4} style={{ color: "#888", fontSize: 13 }}>
@@ -78,11 +100,12 @@ const Dashboard = () => {
       <View
         style={{
           flexDirection: "row",
-          position: "absolute",
-          alignItems: "center",
-          columnGap: 10,
-          top: 5,
-          right: 10,
+          width: "100%",
+          justifyContent: "space-between",
+          borderTopWidth: 1,
+          borderTopColor: "#d6d6d6",
+          paddingHorizontal: "15%",
+          paddingVertical: "2%",
         }}
       >
         <TouchableOpacity
@@ -96,14 +119,22 @@ const Dashboard = () => {
               },
             });
           }}
+          style={{ flexDirection: "row", alignItems: "center" }}
         >
-          <MaterialIcons name="edit-note" size={30} color="black" />
+          <ThemedText style={{ fontSize: 13, color: "black" }}>Edit</ThemedText>
+          <MaterialIcons name="edit-note" size={30} color={iconColor} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => handleDelete(task?._id)}>
-          <MaterialIcons name="delete" size={24} color="black" />
+        <TouchableOpacity
+          onPress={() => handleDelete(task?._id)}
+          style={{ flexDirection: "row", alignItems: "center" }}
+        >
+          <ThemedText style={{ fontSize: 13, color: "black" }}>
+            Delete
+          </ThemedText>
+          <MaterialIcons name="delete" size={22} color={iconColor} />
         </TouchableOpacity>
       </View>
-    </ThemedView>
+    </TouchableOpacity>
   );
 
   return (
@@ -127,14 +158,14 @@ const Dashboard = () => {
               }}
             />
             <ThemedText style={{ fontSize: 18 }}>
-              Hello, <Text style={{ fontSize: 20 }}>Mark</Text>
+              Hello, <ThemedText style={{ fontSize: 20 }}>Mark</ThemedText>
             </ThemedText>
           </ThemedView>
           <AntDesign
             onPress={() => handleLogout()}
             name="logout"
             size={24}
-            color="gray"
+            color={iconColor}
           />
         </ThemedView>
         <ThemedText style={{ fontSize: 14, marginVertical: 10 }}>
@@ -162,6 +193,8 @@ const Dashboard = () => {
         {tasks?.length > 0 ? (
           <FlatList
             data={tasks}
+            scrollEnabled
+            showsVerticalScrollIndicator={false}
             renderItem={({ item }) => <TaskItem task={item} />}
             keyExtractor={(item) => item._id}
             refreshControl={
@@ -197,12 +230,8 @@ const Dashboard = () => {
 const styles = StyleSheet.create({
   taskContainer: {
     backgroundColor: "#E6FAE6",
-    padding: 15,
     borderRadius: 10,
     marginVertical: 5,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
   },
   modal: {
     position: "absolute",

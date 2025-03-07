@@ -83,7 +83,12 @@ const LoginScreen = () => {
         </ThemedView>
 
         <View style={styles.optionsContainer}>
-          <ThemedText style={styles.forgotPassword}>
+          <ThemedText
+            onPress={() => {
+              navigation.navigate("/forget-password");
+            }}
+            style={styles.forgotPassword}
+          >
             Forget password?
           </ThemedText>
         </View>

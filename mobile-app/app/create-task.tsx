@@ -14,12 +14,14 @@ import { Ionicons } from "@expo/vector-icons";
 import CustomInputField from "@/components/CustomInputField";
 import { createNewTaksRequest } from "@/hooks/api/userApi";
 import { Toast } from "toastify-react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 const CreateTask = () => {
   const navigation = useRouter();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isCreating, setIsCreating] = useState(false);
+  const color = useThemeColor({ light: "", dark: "" }, "icon");
 
   const onSubmit = async () => {
     console.log("New Task:", { title, description });
@@ -58,7 +60,7 @@ const CreateTask = () => {
             }}
           >
             <TouchableOpacity onPress={() => navigation.back()}>
-              <Ionicons name="arrow-back" size={24} color="#000" />
+              <Ionicons name="arrow-back" size={24} color={color} />
             </TouchableOpacity>
             <ThemedText style={{ fontSize: 20, marginLeft: 10 }}>
               Create Task

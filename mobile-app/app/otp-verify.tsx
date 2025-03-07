@@ -59,6 +59,17 @@ const OtpVerify = () => {
     }
   };
 
+  const handleVerifyResetOtp = async (otps: any) => {
+    if (otps === userOpt) {
+      router.push({
+        pathname: "/reset-password",
+        params: { email: params?.email },
+      });
+    } else {
+      Toast.error("Wrong Otp Entered");
+    }
+  };
+
   const handleVerifyOtp = async (otps: any) => {
     try {
       if (otps === userOpt) {
@@ -97,7 +108,11 @@ const OtpVerify = () => {
           setOtpFields={setOtpFields}
           verifyOnComplete={(copy) => {
             // Call otpVerification function if needed
-            handleVerifyOtp(copy.join(""));
+            if (params?.type == "reset") {
+              handleVerifyResetOtp(copy.join(""));
+            } else {
+              handleVerifyOtp(copy.join(""));
+            }
           }}
         />
 

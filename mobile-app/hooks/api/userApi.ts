@@ -21,6 +21,15 @@ export const sendOtpMail = async (payload: any) => {
 };
 
 // Function to fetch register users
+export const sendOtpMailforReset = async (payload: any) => {
+  const response = await axiosInstance.post(
+    `/auth/send-reset-password-otp`,
+    payload
+  );
+  return response.data || response; // Assuming the response contains the data
+};
+
+// Function to fetch register users
 export const getAllTasks = async () => {
   const response = await axiosInstance.get(`/task/all-tasks`);
   return response.data || response; // Assuming the response contains the data
@@ -38,6 +47,12 @@ export const updateTaksRequest = async (payload: any) => {
     title: payload?.title,
     description: payload?.description,
   });
+  return response.data || response; // Assuming the response contains the data
+};
+
+// Function to fetch register users
+export const resetPasswordRequest = async (payload: any) => {
+  const response = await axiosInstance.put(`/auth/reset-password`, payload);
   return response.data || response; // Assuming the response contains the data
 };
 
