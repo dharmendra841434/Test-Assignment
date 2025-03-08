@@ -24,7 +24,6 @@ import {
   getCurrentUserDetailsRequest,
 } from "@/hooks/api/userApi";
 import { useThemeColor } from "@/hooks/useThemeColor";
-import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const navigation = useRouter();
@@ -37,6 +36,7 @@ const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [isDeleting, setIsDeleting] = useState(false);
   const iconColor = useThemeColor({ light: "", dark: "" }, "icon");
+  const [currentUser, setCurrentUser] = useState(null);
 
   const handleLogout = () => {
     Storage.clearAll();
@@ -46,10 +46,10 @@ const Dashboard = () => {
   const getProfile = async () => {
     try {
       const resp = await getCurrentUserDetailsRequest();
-      console.log(resp, "current");
+      // console.log(resp, "current");
+      setCurrentUser(resp?.user);
     } catch (error) {
       console.log(error?.response?.data?.message);
-
       // Toast.error(
       //   error?.response?.data?.message || "An unexpected error occurred"
       // );
@@ -176,7 +176,10 @@ const Dashboard = () => {
               }}
             />
             <ThemedText style={{ fontSize: 18 }}>
-              Hello, <ThemedText style={{ fontSize: 20 }}>Mark</ThemedText>
+              Hello,{" "}
+              <ThemedText style={{ fontSize: 20 }}>
+                {currentUser?.full_name}
+              </ThemedText>
             </ThemedText>
           </ThemedView>
           <AntDesign
