@@ -1,3 +1,103 @@
+# React Native Expo Task Manager
+
+This project is a **React Native Expo** application that offers the following functionalities:
+
+- **User Signup**
+- **User Login**
+- **Forgot Password**
+- **Create New Task**
+- **View All Tasks on Dashboard**
+- **Edit, Delete, and Update Tasks**
+
+## Getting Started
+
+Follow these instructions to get the project running on your local machine.
+
+### Prerequisites
+- **Node.js** (v18 or higher)
+- **Expo CLI** (installed globally)
+
+### Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/dharmendra841434/Cave_Digital_Australia_Test.git
+   cd mobile-app
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the Expo development server:
+   ```bash
+   npx expo start
+   ```
+4. Scan the QR code with your Expo Go app or run the project on an emulator.
+
+## Features
+
+### Authentication
+- **Signup**: Users can register with their email and password.
+- **Login**: Users can log in securely with their credentials.
+- **Forgot Password**: Users can reset their password via email.
+
+### Task Management
+- **Create Task**: Add new tasks with a title and description.
+- **Dashboard**: View a list of all tasks on the dashboard.
+- **Edit Task**: Modify task details easily.
+- **Delete Task**: Remove tasks with a confirmation prompt.
+- **Update Task**: Mark tasks as completed or update other details.
+
+## Folder Structure
+```
+├── src
+│   ├── components
+│   ├── screens
+│   ├── services
+│   ├── utils
+│   ├── App.tsx
+├── assets
+├── .env
+├── app.json
+├── babel.config.js
+├── package.json
+└── README.md
+```
+
+## Screenshots
+Here are some screenshots showcasing the app's functionality:
+
+### Signup Screen
+![Signup](./assets-readme/signup.jpg)
+
+### Login Screen
+![Login](./assets-readme/login.jpg)
+
+### Dashboard Screen
+![Dashboard](./assets-readme/dashboard.jpg)
+
+### Task Management
+![Task Management](./assets-readme/create.jpg)
+
+## Environment Variables
+Create a `.env` file in the root directory with the following keys:
+```
+API_URL=<your-backend-api-url>
+AUTH_SECRET=<your-auth-secret>
+```
+
+## API Endpoints
+- **POST** `/signup` - Register a new user
+- **POST** `/login` - Authenticate a user
+- **POST** `/forgot-password` - Send reset password link
+- **POST** `/task/create` - Create a new task
+- **GET** `/task/all-tasks` - Retrieve all tasks
+- **PUT** `/task/update/:id` - Update a task
+- **DELETE** `/task/delete/:id` - Delete a task
+
+
+
+
+
 # Task Management API
 
 This is a Task Management API built using Node.js and MongoDB. It provides endpoints for user authentication and task management.
