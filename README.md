@@ -66,17 +66,20 @@ Follow these instructions to get the project running on your local machine.
 ## Screenshots
 Here are some screenshots showcasing the app's functionality:
 
-### Signup Screen
-![Signup](./assets-readme/signup.jpg)
+<div align="center">
+   <img src="./assets-readme/signup.jpeg" width="300" />
+   <img src="./assets-readme/login.jpeg" width="300" />
+   <img src="./assets-readme/otp.jpeg" width="300" />
+</div>
 
-### Login Screen
-![Login](./assets-readme/login.jpg)
+<div align="center">
+    <img src="./assets-readme/forget.jpeg" width="300" />
+   <img src="./assets-readme/dashboard.jpeg" width="300" />
+   <img src="./assets-readme/create.jpeg" width="300" />
+     <img src="./assets-readme/update.jpeg" width="300" />
+   <img src="./assets-readme/delete.jpeg" width="300" />
+</div>
 
-### Dashboard Screen
-![Dashboard](./assets-readme/dashboard.jpg)
-
-### Task Management
-![Task Management](./assets-readme/create.jpg)
 
 ## Environment Variables
 Create a `.env` file in the root directory with the following keys:
@@ -93,6 +96,15 @@ AUTH_SECRET=<your-auth-secret>
 - **GET** `/task/all-tasks` - Retrieve all tasks
 - **PUT** `/task/update/:id` - Update a task
 - **DELETE** `/task/delete/:id` - Delete a task
+
+
+
+
+
+
+
+
+
 
 
 
